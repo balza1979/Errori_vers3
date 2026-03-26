@@ -220,8 +220,8 @@ async function caricaExcel(nomeFoglio) {
     const manualiDiv = document.getElementById("manuali-container");
     manualiDiv.innerHTML = ""; // pulisce
 
-    // colonne N, O, P, Q → indici 13, 14, 15, 16
-    const colonneManuali = [13, 14, 15, 16];
+    // colonne N, O, P, Q.... → indici 13, 14, 15, 16
+    const colonneManuali = [13, 14, 15, 16, 17, 18, 19, 20];
 
     colonneManuali.forEach((colIndex) => {
         const nomeFile = r[colIndex];
