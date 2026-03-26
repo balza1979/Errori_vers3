@@ -230,8 +230,9 @@ async function caricaExcel(nomeFoglio) {
             const btn = document.createElement("button");
 
             // Il pulsante mostra il nome del file
-            btn.textContent = nomeFile;
-
+            // Rimuove l'estensione (tutto dopo l'ultimo punto)
+const nomeSenzaEstensione = nomeFile.replace(/\.[^/.]+$/, "");
+btn.textContent = nomeSenzaEstensione;
             btn.style.margin = "5px";
             btn.style.padding = "10px 20px";
             btn.style.borderRadius = "8px";
