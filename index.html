@@ -5,14 +5,14 @@
 <title>ELMI – Errori</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Libreria XLSX corretta -->
+<!-- Libreria XLSX -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: #000;   /* ← SFONDO NERO */
+    background: #000;
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -39,45 +39,34 @@
     background-color: #c9302c;
   }
 
-  header {
-    background: #b91c1c;
-    color: white;
-    padding: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-  }
-
-.tab-bar {
+  .tab-bar {
     display: flex;
     justify-content: center;
     gap: 12px;
     padding: 10px;
-    margin-top: 2px;  /* molto più vicino */
-}
+    margin-top: 2px;
+  }
 
-}
-.tab-button {
-  background: #d1d5db;       /* grigio chiaro */
-  color: #000;
-  padding: 12px 26px;
-  font-size: 16px;
-  border: none;
-  border-radius: 25px;       /* TONDEGGIANTE */
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
+  .tab-button {
+    background: #d1d5db;
+    color: #000;
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+  }
 
-.tab-button:hover {
-  background: #bfc3c9;       /* grigio hover */
-}
+  .tab-button:hover {
+    background: #bfc3c9;
+  }
 
-.tab-button.active {
-  background: #d9534f;       /* ROSSO */
-  color: white;
-  transform: scale(1);        /* NON cambia dimensione */
-}
+  .tab-button.active {
+    background: #d9534f;
+    color: white;
+  }
 
   .container {
     max-width: 600px;
@@ -104,16 +93,18 @@
     border: 1px solid #9ca3af;
     font-size: 16px;
   }
-.tab-title {
+
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .tab-title {
     text-align: center;
     color: red;
     font-size: 20px;
     font-weight: bold;
-    margin: 10px 0 5px 0; /* molto compatto */
-}
-  textarea {
-    resize: vertical;
-    min-height: 90px;
+    margin: 10px 0 5px 0;
   }
 
   .pdf-container {
@@ -136,6 +127,7 @@
 <body>
 
 <a class="home-button" href="https://balza1979.github.io/Elmi-Documenti/">Home</a>
+
 <h3 class="tab-title">SCHEDE ELMI</h3>
 <div class="tab-bar">
   <button class="tab-button active" onclick="selezionaFoglio('errori', this)">ERRORI BETA-K</button>
@@ -148,11 +140,13 @@
   <button class="tab-button" onclick="selezionaFoglio('lm2a_errori', this)">FUJI_LM2A</button>
   <button class="tab-button" onclick="selezionaFoglio('Nxp_errori', this)">VACON_NXP</button>
 </div>
- 
+
 <div class="container">
-<label id="labelA">Caricamento...</label>
+  <label id="labelA">Caricamento...</label>
   <select id="menu"></select>
-<div id="manuali-container" style="margin-top: 20px; text-align:center;"></div> 
+
+  <div id="manuali-container" style="margin-top: 20px; text-align:center;"></div>
+
   <label id="labelB"></label>
   <textarea id="campoB" readonly></textarea>
 
@@ -190,7 +184,6 @@ async function caricaExcel(nomeFoglio) {
   }
 
   const dati = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
   const intestazioni = dati[0];
   const righe = dati.slice(1);
 
@@ -216,30 +209,25 @@ async function caricaExcel(nomeFoglio) {
     document.getElementById("campoC").value = r[2] || "";
     document.getElementById("campoD").value = r[3] || "";
 
-    // --- NUOVA PARTE: GENERA I BOTTONI DEI MANUALI ---
-const manualiDiv = document.getElementById("manuali-container");
-manualiDiv.innerHTML = ""; // pulisce
+    // --- GENERA I BOTTONI DEI MANUALI ---
+    const manualiDiv = document.getElementById("manuali-container");
+    manualiDiv.innerHTML = "";
 
-// colonne N, O, P, Q → indici 13, 14, 15, 16
-const colonneManuali = [13, 14, 15, 16];
+    const colonneManuali = [13, 14, 15, 16];
 
-colonneManuali.forEach((colIndex) => {
-    const nomeFile = r[colIndex];
+    colonneManuali.forEach((colIndex) => {
+      const nomeFile = r[colIndex];
 
-    if (nomeFile && nomeFile.trim() !== "") {
+      if (nomeFile && nomeFile.trim() !== "") {
         const btn = document.createElement("button");
 
-        // --- Nome pulito ---
         let nomePulito = nomeFile;
 
         if (nomeFile.startsWith("http")) {
-            // Prende solo l’ultima parte dell’URL
-            const ultimoSegmento = nomeFile.split("/").pop();
-            // Rimuove l’estensione
-            nomePulito = ultimoSegmento.replace(/\.[^/.]+$/, "");
+          const ultimoSegmento = nomeFile.split("/").pop();
+          nomePulito = ultimoSegmento.replace(/\.[^/.]+$/, "");
         } else {
-            // File locale → rimuove solo l’estensione
-            nomePulito = nomeFile.replace(/\.[^/.]+$/, "");
+          nomePulito = nomeFile.replace(/\.[^/.]+$/, "");
         }
 
         btn.textContent = nomePulito;
@@ -251,19 +239,18 @@ colonneManuali.forEach((colIndex) => {
         btn.style.fontWeight = "bold";
 
         btn.onclick = () => {
-            if (nomeFile.startsWith("http")) {
-                window.open(nomeFile, "_blank");   // link esterno
-            } else {
-                window.open("pdfManualiErrori/" + nomeFile, "_blank"); // file locale
-            }
+          if (nomeFile.startsWith("http")) {
+            window.open(nomeFile, "_blank");
+          } else {
+            window.open("pdfManualiErrori/" + nomeFile, "_blank");
+          }
         };
 
         manualiDiv.appendChild(btn);
-    }
-});
-        }
+      }
     });
-};
+  };
+
   menu.dispatchEvent(new Event("change"));
 }
 
