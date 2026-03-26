@@ -210,11 +210,41 @@ async function caricaExcel(nomeFoglio) {
 
   menu.onchange = () => {
     const r = righe[menu.value];
+
     document.getElementById("campoB").value = r[1] || "";
     document.getElementById("campoC").value = r[2] || "";
     document.getElementById("campoD").value = r[3] || "";
-  };
 
+    // --- NUOVA PARTE: GENERA I BOTTONI DEI MANUALI ---
+    const manualiDiv = document.getElementById("manuali-container");
+    manualiDiv.innerHTML = ""; // pulisce
+
+    // colonne N, O, P, Q → indici 13, 14, 15, 16
+    const colonneManuali = [13, 14, 15, 16];
+
+    colonneManuali.forEach((colIndex) => {
+        const nomeFile = r[colIndex];
+
+        if (nomeFile && nomeFile.trim() !== "") {
+            const btn = document.createElement("button");
+
+            // Il pulsante mostra il nome del file
+            btn.textContent = nomeFile;
+
+            btn.style.margin = "5px";
+            btn.style.padding = "10px 20px";
+            btn.style.borderRadius = "8px";
+            btn.style.cursor = "pointer";
+            btn.style.fontWeight = "bold";
+
+            btn.onclick = () => {
+                window.open("pdfManualiErrori/" + nomeFile, "_blank");
+            };
+
+            manualiDiv.appendChild(btn);
+        }
+    });
+};
   menu.dispatchEvent(new Event("change"));
 }
 
