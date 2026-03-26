@@ -5,7 +5,7 @@
 <title>ELMI – Errori</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Libreria XLSX -->
+<!-- Libreria XLSX corretta -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
@@ -56,7 +56,7 @@
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.1s ease;
   }
 
   .tab-button:hover {
@@ -145,6 +145,7 @@
   <label id="labelA">Caricamento...</label>
   <select id="menu"></select>
 
+  <!-- 🔥 CONTENITORE PULSANTI MANUALI -->
   <div id="manuali-container" style="margin-top: 20px; text-align:center;"></div>
 
   <label id="labelB"></label>
@@ -156,7 +157,6 @@
   <label id="labelD"></label>
   <textarea id="campoD" readonly></textarea>
 </div>
-
 <div class="pdf-container">
   <img src="da.png" class="pdf-image">
   <img src="led_gialli.png" class="pdf-image">
@@ -209,7 +209,7 @@ async function caricaExcel(nomeFoglio) {
     document.getElementById("campoC").value = r[2] || "";
     document.getElementById("campoD").value = r[3] || "";
 
-    // --- GENERA I BOTTONI DEI MANUALI ---
+    // 🔥 GENERA I PULSANTI DEI MANUALI
     const manualiDiv = document.getElementById("manuali-container");
     manualiDiv.innerHTML = "";
 
