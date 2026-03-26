@@ -225,51 +225,47 @@ async function caricaExcel(nomeFoglio) {
 
     const colonneManuali = [13, 14, 15, 16];
 
-    colonneManuali.forEach((colIndex) => {
-      const nomeFile = r[colIndex];
+colonneManuali.forEach((colIndex) => {
+    let cella = r[colIndex];
 
-      if (nomeFile && nomeFile.trim() !== "") {
-        const btn = document.createElement("button");
+    if (!cella || cella.trim() === "") return;
 
-let nomePulito = nomeFile;
-let linkDaAprire = nomeFile;
+    // 🔥 Rimuove caratteri invisibili, ritorni a capo, spazi strani
+    cella = cella.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
-// Se contiene ### → prima parte = nome, seconda = link
-if (nomeFile.includes("###")) {
-    const parti = nomeFile.split("###");
-    nomePulito = parti[0];
-    linkDaAprire = parti[1];
-} else {
-    // File locale → rimuove estensione
-    nomePulito = nomeFile.replace(/\.[^/.]+$/, "");
-    linkDaAprire = "pdfManualiErrori/" + nomeFile;
-}
+    let nomePulito = "";
+    let linkDaAprire = "";
 
-btn.textContent = nomePulito;
+    if (cella.includes("###")) {
+        const parti = cella.split("###");
 
-btn.onclick = () => {
-    window.open(linkDaAprire, "_blank");
-};
+        nomePulito = parti[0].trim();
+        linkDaAprire = parti[1].trim();
 
-        btn.textContent = nomePulito;
+        // Rimuove eventuali ritorni a capo nascosti
+        linkDaAprire = linkDaAprire.replace(/[\r\n]+/g, "").trim();
 
-        btn.style.margin = "5px";
-        btn.style.padding = "10px 20px";
-        btn.style.borderRadius = "8px";
-        btn.style.cursor = "pointer";
-        btn.style.fontWeight = "bold";
+    } else {
+        // File locale → rimuove estensione
+        nomePulito = cella.replace(/\.[^/.]+$/, "");
+        linkDaAprire = "pdfManualiErrori/" + cella;
+    }
 
-        btn.onclick = () => {
-          if (nomeFile.startsWith("http")) {
-            window.open(nomeFile, "_blank");
-          } else {
-            window.open("pdfManualiErrori/" + nomeFile, "_blank");
-          }
-        };
+    const btn = document.createElement("button");
+    btn.textContent = nomePulito;
 
-        manualiDiv.appendChild(btn);
-      }
-    });
+    btn.style.margin = "5px";
+    btn.style.padding = "10px 20px";
+    btn.style.borderRadius = "8px";
+    btn.style.cursor = "pointer";
+    btn.style.fontWeight = "bold";
+
+    btn.onclick = () => {
+        window.open(linkDaAprire, "_blank");
+    };
+
+    manualiDiv.appendChild(btn);
+});
   };
 
   menu.dispatchEvent(new Event("change"));
