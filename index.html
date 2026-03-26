@@ -234,11 +234,11 @@ async function caricaExcel(nomeFoglio) {
 let nomePulito = nomeFile;
 let linkDaAprire = nomeFile;
 
-// Se contiene uno spazio → prima parte = nome, seconda = link
-if (nomeFile.includes(" ")) {
-    const parti = nomeFile.split(" ");
-    nomePulito = parti[0];          // nome del pulsante
-    linkDaAprire = parti[1];        // link esterno
+// Se contiene ### → prima parte = nome, seconda = link
+if (nomeFile.includes("###")) {
+    const parti = nomeFile.split("###");
+    nomePulito = parti[0];
+    linkDaAprire = parti[1];
 } else {
     // File locale → rimuove estensione
     nomePulito = nomeFile.replace(/\.[^/.]+$/, "");
