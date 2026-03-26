@@ -231,12 +231,24 @@ async function caricaExcel(nomeFoglio) {
       if (nomeFile && nomeFile.trim() !== "") {
         const btn = document.createElement("button");
 
-        btn.onclick = () => {
-  if (nomeFile.startsWith("http")) {
-    window.open(nomeFile, "_blank");
-  } else {
-    window.open("pdfManualiErrori/" + nomeFile, "_blank");
-  }
+let nomePulito = nomeFile;
+let linkDaAprire = nomeFile;
+
+// Se contiene uno spazio → prima parte = nome, seconda = link
+if (nomeFile.includes(" ")) {
+    const parti = nomeFile.split(" ");
+    nomePulito = parti[0];          // nome del pulsante
+    linkDaAprire = parti[1];        // link esterno
+} else {
+    // File locale → rimuove estensione
+    nomePulito = nomeFile.replace(/\.[^/.]+$/, "");
+    linkDaAprire = "pdfManualiErrori/" + nomeFile;
+}
+
+btn.textContent = nomePulito;
+
+btn.onclick = () => {
+    window.open(linkDaAprire, "_blank");
 };
 
         btn.textContent = nomePulito;
