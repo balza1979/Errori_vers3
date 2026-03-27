@@ -195,7 +195,6 @@ async function caricaExcel(nomeFoglio) {
   }
 
   const dati = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
   const intestazioni = dati[0];
   const righe = dati.slice(1);
 
@@ -217,57 +216,46 @@ async function caricaExcel(nomeFoglio) {
   menu.onchange = () => {
     const r = righe[menu.value];
 
+    document.getElementById("menuDettaglio").value = menu.options[menu.selectedIndex].text;
+
     document.getElementById("campoB").value = r[1] || "";
     document.getElementById("campoC").value = r[2] || "";
     document.getElementById("campoD").value = r[3] || "";
 
-    // --- 🔥 GENERA I BOTTONI DEI MANUALI ---
     const manualiDiv = document.getElementById("manuali-container");
     manualiDiv.innerHTML = "";
 
     const colonneManuali = [13, 14, 15, 16, 17, 18, 19, 20];
 
-colonneManuali.forEach((colIndex) => {
-    let cella = r[colIndex];
+    colonneManuali.forEach((colIndex) => {
+      let cella = r[colIndex];
+      if (!cella || cella.trim() === "" || cella.trim() === "/") return;
 
-    if (!cella || cella.trim() === "") return;
- if (!cella || cella.trim() === "/") return;
-    // 🔥 Rimuove caratteri invisibili, ritorni a capo, spazi strani
-    cella = cella.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+      cella = cella.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
-    let nomePulito = "";
-    let linkDaAprire = "";
+      let nomePulito = "";
+      let linkDaAprire = "";
 
-    if (cella.includes("###")) {
+      if (cella.includes("###")) {
         const parti = cella.split("###");
-
         nomePulito = parti[0].trim();
-        linkDaAprire = parti[1].trim();
-
-        // Rimuove eventuali ritorni a capo nascosti
-        linkDaAprire = linkDaAprire.replace(/[\r\n]+/g, "").trim();
-
-    } else {
-        // File locale → rimuove estensione
+        linkDaAprire = parti[1].trim().replace(/[\r\n]+/g, "");
+      } else {
         nomePulito = cella.replace(/\.[^/.]+$/, "");
         linkDaAprire = "pdfManualiErrori/" + cella;
-    }
+      }
 
-    const btn = document.createElement("button");
-    btn.textContent = nomePulito;
+      const btn = document.createElement("button");
+      btn.textContent = nomePulito;
+      btn.style.margin = "5px";
+      btn.style.padding = "10px 20px";
+      btn.style.borderRadius = "8px";
+      btn.style.cursor = "pointer";
+      btn.style.fontWeight = "bold";
+      btn.onclick = () => window.open(linkDaAprire, "_blank");
 
-    btn.style.margin = "5px";
-    btn.style.padding = "10px 20px";
-    btn.style.borderRadius = "8px";
-    btn.style.cursor = "pointer";
-    btn.style.fontWeight = "bold";
-
-    btn.onclick = () => {
-        window.open(linkDaAprire, "_blank");
-    };
-
-    manualiDiv.appendChild(btn);
-});
+      manualiDiv.appendChild(btn);
+    });
   };
 
   menu.dispatchEvent(new Event("change"));
@@ -281,10 +269,5 @@ function selezionaFoglio(nomeFoglio, bottone) {
 
 caricaExcel("errori");
 </script>
-document.getElementById("menu").addEventListener("change", function () {
-    let fullText = this.options[this.selectedIndex].text;
-
-    document.getElementById("menuDettaglio").value = fullText;
-});
 </body>
 </html>
