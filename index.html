@@ -229,7 +229,7 @@ colonneManuali.forEach((colIndex) => {
     let cella = r[colIndex];
 
     if (!cella || cella.trim() === "") return;
-
+ if (!cella || cella.trim() === "/") return;
     // 🔥 Rimuove caratteri invisibili, ritorni a capo, spazi strani
     cella = cella.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
