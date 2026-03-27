@@ -255,7 +255,7 @@ document.getElementById("labelD").textContent = intestazioni[3] || "";
       if (!cella || cella.trim() === "" || cella.trim() === "/") return;
 
       // Rimuove < e >
-      cella = cella.replace(/[<>]/g, "");
+cella = cella.replace(/[<>]/g, "");
 
       cella = cella.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
