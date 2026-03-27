@@ -146,7 +146,7 @@
 </head>
 
 <body>
-<div id="versione" class="version-box">v1.0.1b</div>
+<div id="versione" class="version-box">v1.0.1c</div>
 <a class="home-button" href="https://balza1979.github.io/Elmi-Documenti/">Home</a>
 <h3 class="tab-title">SCHEDE ELMI</h3>
 <div class="tab-bar">
@@ -232,8 +232,10 @@ document.getElementById("labelD").textContent = intestazioni[3] || "";
     menu.appendChild(opt);
   });
 
-  menu.onchange = () => {
-    const r = righe[menu.value];
+menu.onchange = () => {
+    window.r = righe[menu.value];  // <---- AGGIUNTO
+    const r = window.r;
+``
 
     document.getElementById("menuDettaglio").value = menu.options[menu.selectedIndex].text;
 
