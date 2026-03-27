@@ -208,11 +208,10 @@ async function caricaExcel(nomeFoglio) {
   const intestazioni = dati[0];
   const righe = dati.slice(1);
 
-  document.getElementById("labelA").textContent = intestazioni[0] || "";
-  document.getElementById("labelB").textContent = intestazioni[1] || "";
-  document.getElementById("labelC").textContent = intestazioni[2] || "";
-  document.getElementById("labelD").textContent = intestazioni[3] || "";
-
+document.getElementById("labelA_det").textContent = intestazioni[0] || "";
+document.getElementById("labelB").textContent = intestazioni[1] || "";
+document.getElementById("labelC").textContent = intestazioni[2] || "";
+document.getElementById("labelD").textContent = intestazioni[3] || "";
   const menu = document.getElementById("menu");
   menu.innerHTML = "";
 
