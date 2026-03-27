@@ -281,6 +281,10 @@ function selezionaFoglio(nomeFoglio, bottone) {
 
 caricaExcel("errori");
 </script>
+document.getElementById("menu").addEventListener("change", function () {
+    let fullText = this.options[this.selectedIndex].text;
 
+    document.getElementById("menuDettaglio").value = fullText;
+});
 </body>
 </html>
